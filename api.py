@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from .router import RychlyRouter
 
 
-class RychlyAPI(FastAPI):
+class RychlyAPI():
 
     def __init__(self):
         self.app = FastAPI()
