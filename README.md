@@ -10,8 +10,9 @@ A router-controller library to use with FastAPI and uvicorn.
 1. Create examples to demonstrate how it is used
 
 ## Dependencies
-1. fastapi
-2. uvicorn - for logging
+1. python 3.10 
+2. fastapi
+3. uvicorn - for logging
 
 ## Fun Facts
 
