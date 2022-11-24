@@ -11,8 +11,8 @@ A router-controller library to use with FastAPI and uvicorn.
 
 ## Dependencies
 1. python 3.10 
-2. fastapi
-3. uvicorn - for logging
+2. fastapi==0.87.0
+3. uvicorn==0.19.0 - for logging
 
 ## Fun Facts
 
