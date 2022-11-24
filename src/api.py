@@ -14,14 +14,18 @@ class RychlyAPI():
         @self.app.on_event("startup")
         async def startup_event():
             # Setup Logger
-            logger = logging.getLogger("uvicorn")
+            loggers = [ logging.getLogger("uvicorn"), logging.getLogger("uvicorn.access") ]
+
             console_formatter = ColorFormatter(
                 "[{asctime}][{process}][{location}][{levelprefix}]: {message}",
                 style='{',
                 use_colors=True
             )
-            logger.handlers[0].setFormatter(console_formatter)
-            logger.info("Logger initialized")
+            
+            for logger in loggers:
+                logger.handlers[0].setFormatter(console_formatter)
+                
+            loggers[0].info("Loggers initialized")
 
         if log_request_time:
             @self.app.middleware('http')
