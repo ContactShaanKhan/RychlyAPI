@@ -10,22 +10,19 @@ class RychlyAPI():
     def __init__(self, log_request_time=False):
         self.app = FastAPI()
 
-        # Setup some middleware now too
-        @self.app.on_event("startup")
-        async def startup_event():
-            # Setup Logger
-            loggers = [ logging.getLogger("uvicorn"), logging.getLogger("uvicorn.access") ]
+        #  Setup loggers
+        loggers = [ logging.getLogger("uvicorn"), logging.getLogger("uvicorn.access") ]
 
-            console_formatter = ColorFormatter(
-                "[{asctime}][{process}][{location}][{levelprefix}]: {message}",
-                style='{',
-                use_colors=True
-            )
+        console_formatter = ColorFormatter(
+            "[{asctime}][{process}][{location}][{levelprefix}]: {message}",
+            style='{',
+            use_colors=True
+        )
+        
+        for _logger in loggers:
+            _logger.handlers[0].setFormatter(console_formatter)
             
-            for logger in loggers:
-                logger.handlers[0].setFormatter(console_formatter)
-                
-            loggers[0].info("Loggers initialized")
+        loggers[0].info("Initialized logger")
 
         if log_request_time:
             @self.app.middleware('http')
