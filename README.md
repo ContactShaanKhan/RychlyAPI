@@ -46,7 +46,7 @@ logger.info("Initializing auth Router...")
 authRouter = RychlyRouter()
 
 authRouter.get('/register', register)
-authRouter.get('/login{id}', login)
+authRouter.get('/login/{id}', login)
 
 ```
 #### main.py
