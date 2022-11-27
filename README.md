@@ -16,6 +16,16 @@ Rychlý means fast in Czech :)
 
 ## Example
 
+#### File Structure
+
+```bash
+└── example
+    ├── authController.py
+    ├── authRouter.py
+    └── main.py
+```
+
+
 #### authController.py
 
 ```python
@@ -33,7 +43,7 @@ async def register(username: str, password: str):
     return {
         "message": "Registered!"
     }
-    
+
 ```
 
 #### authRouter.py
