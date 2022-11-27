@@ -1,9 +1,6 @@
 # RychlyAPI
 
-A router-controller library to use with FastAPI and uvicorn.   
-
-1. Instead of using the traditional way of defining endpoints in FAST API - adopt the router-controller model.    
-2. Integrated logger, simply import and log away with beautiful structured and colored logs
+A fastAPI + uvicorn library that lets you create a Python based API even faster with integrated logging and the more readable router-controller model.   
 
 ## Dependencies
 1. python = 3.10 
