@@ -16,11 +16,12 @@ Rychlý means fast in Czech :)
 
 ## Example
 
-```python
-import argparse
-from lib.rychlyapi import RychlyAPI, RychlyRouter, logger
+#### authController.py
 
-logger.info("Initializing endpoints...")
+```python
+from rychlyapi import logger
+
+logger.info("Initializing auth controller")
 
 # API endpoint for auth
 async def login(id: int):
@@ -32,7 +33,13 @@ async def register(username: str, password: str):
     return {
         "message": "Registered!"
     }
+    
+```
 
+#### authRouter.py
+```python
+from rychlyapi import RychlyRouter, logger
+from authController import login, register
 
 logger.info("Initializing auth Router...")
 
@@ -41,6 +48,13 @@ authRouter = RychlyRouter()
 authRouter.get('/register', register)
 authRouter.get('/login{id}', login)
 
+```
+#### main.py
+
+```python
+import argparse
+from rychlyapi import RychlyAPI
+from authRouter import authRouter
 
 def main():
     # Command line arguments
