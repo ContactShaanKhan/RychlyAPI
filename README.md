@@ -6,9 +6,9 @@ A router-controller library to use with FastAPI and uvicorn.
 2. Integrated logger, simply import and log away with beautiful structured and colored logs
 
 ## Dependencies
-1. python 3.10 
-2. fastapi==0.87.0
-3. uvicorn==0.19.0
+1. python = 3.10 
+2. fastapi = 0.87.0
+3. uvicorn = 0.19.0
 
 ## Fun Facts
 
