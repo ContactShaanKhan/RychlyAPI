@@ -1,28 +1,31 @@
 from fastapi import FastAPI, Request
+import uvicorn
 from .router import RychlyRouter
 from time import perf_counter
-from .logging import ColorFormatter, logger
+from .logging import rychlyLogFormatter, logger
 import logging
-
 
 class RychlyAPI():
     
-    def __init__(self, log_request_time=False):
+    # TODO: Fix how routes are done to do it the starlette recommended way (check decorator documentation for more info)
+    # TODO: Allow middleware to be added the starlette way (starlette.middleware.base)
+
+    # Host and port only need to be provided if using a context manager
+    def __init__(self, log_request_time=False, host=None, port=None):
         self.app = FastAPI()
 
-        #  Setup loggers
-        loggers = [ logging.getLogger("uvicorn"), logging.getLogger("uvicorn.access") ]
+        self.host = host
+        self.port = port
 
-        console_formatter = ColorFormatter(
-            "[{asctime}][{process}][{location}][{levelprefix}]: {message}",
-            style='{',
-            use_colors=True
-        )
-        
-        for _logger in loggers:
-            _logger.handlers[0].setFormatter(console_formatter)
+        # Initialize the uvicorn logger on startup
+        @self.app.on_event("startup")
+        async def startup_event():
+            loggers = [ logging.getLogger("uvicorn"), logging.getLogger("uvicorn.access") ]
             
-        loggers[0].info("Initialized logger")
+            for _logger in loggers:
+                _logger.handlers[0].setFormatter(rychlyLogFormatter)
+                
+            loggers[0].info("Initialized logger")
 
         if log_request_time:
             @self.app.middleware('http')
@@ -35,6 +38,18 @@ class RychlyAPI():
 
     def get_server(self):
         return self.app
+
+    def launch_server(self, host, port, **kwargs):
+        uvicorn.run(self.app, host=host, port=port, **kwargs)        
+
+    def __enter__(self):
+        if self.host is None or self.port is None:
+            raise Exception("Host and port must be not None when using a context manager")
+
+        return self, self.app
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.launch_server(self.host, self.port)
 
     # Pointer must be a rychlyAPI Router (for now)
     # TODO: Allow middleware to be done here: Install function pointers that are called or maybe fastapi has a way

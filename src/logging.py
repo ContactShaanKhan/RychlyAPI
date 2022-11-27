@@ -4,9 +4,6 @@ from copy import copy
 import sys
 from typing import Optional, Literal
 
-# Modules should just import this to log
-logger = logging.getLogger("uvicorn") 
-
 TRACE_LOG_LEVEL = 5
 
 class ColorFormatter(logging.Formatter):
@@ -65,3 +62,20 @@ class ColorFormatter(logging.Formatter):
         recordcopy.__dict__["levelprefix"] = seperator + levelname
         recordcopy.__dict__["location"] = "%45s" % (recordcopy.module + "::" + recordcopy.funcName)
         return super().formatMessage(recordcopy)
+
+
+# The official RychlyAPI logger
+logger = logging.getLogger("rychlyapi")
+
+rychlyLogFormatter = ColorFormatter(
+    "[{asctime}][{process}][{location}][{levelprefix}]: {message}",
+    style='{',
+    use_colors=True
+)
+
+# Initialize the logger
+ch = logging.StreamHandler()
+ch.setFormatter(rychlyLogFormatter)
+
+logger.setLevel("DEBUG")
+logger.addHandler(ch)
